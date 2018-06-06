@@ -74,7 +74,7 @@ class OrderSummaryModel implements JsonSerializable
     /**
      * The sender's information
      * @required
-     * @var string $sender public property
+     * @var \RaasLib\Models\NameEmailModel $sender public property
      */
     public $sender;
 
