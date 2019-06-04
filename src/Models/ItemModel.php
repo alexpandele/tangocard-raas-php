@@ -70,6 +70,12 @@ class ItemModel implements JsonSerializable
     public $maxValue;
 
     /**
+     * Item redemption instructions
+     * @var string|null $redemptionInstructions public property
+     */
+    public $redemptionInstructions;
+
+    /**
      * The face value of the gift card
      * @var double|null $faceValue public property
      */
@@ -150,6 +156,7 @@ class ItemModel implements JsonSerializable
         $json['createdDate']    = DateTimeHelper::toRfc3339DateTime($this->createdDate);
         $json['lastUpdateDate'] = DateTimeHelper::toRfc3339DateTime($this->lastUpdateDate);
         $json['countries']      = $this->countries;
+        $json['redemptionInstructions']     = $this->redemptionInstructions;
 
         return $json;
     }
