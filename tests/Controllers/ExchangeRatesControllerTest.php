@@ -44,7 +44,7 @@ class ExchangeRatesControllerTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests if we can successfully retrieve exchange rates
      */
-    public function testTestRetrieveExchangeRates()
+    public function testRetrieveExchangeRates()
     {
 
         // Set callback and perform API call

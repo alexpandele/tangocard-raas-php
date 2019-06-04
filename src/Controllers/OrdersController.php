@@ -44,6 +44,67 @@ class OrdersController extends BaseController
     }
 
     /**
+     * Places an order
+     *
+     * @param Models\CreateOrderRequestModel $body A CreateOrderRequest object
+     * @return mixed response from the API call
+     * @throws APIException Thrown if API call fails
+     */
+    public function createOrder(
+        $body
+    ) {
+        //check that all required arguments are provided
+        if (!isset($body)) {
+            throw new \InvalidArgumentException("One or more required arguments were NULL.");
+        }
+
+
+        //prepare query string for API call
+        $_queryBuilder = '/orders';
+
+        //validate and preprocess url
+        $_queryUrl = APIHelper::cleanUrl(Configuration::getBaseUri() . $_queryBuilder);
+
+        //prepare headers
+        $_headers = array (
+            'user-agent'    => BaseController::USER_AGENT,
+            'Accept'        => 'application/json',
+            'content-type'  => 'application/json; charset=utf-8'
+        );
+
+        //json encode body
+        $_bodyJson = Request\Body::Json($body);
+
+        //set HTTP basic auth parameters
+        Request::auth(Configuration::$platformName, Configuration::$platformKey);
+
+        //call on-before Http callback
+        $_httpRequest = new HttpRequest(HttpMethod::POST, $_headers, $_queryUrl);
+        if ($this->getHttpCallBack() != null) {
+            $this->getHttpCallBack()->callOnBeforeRequest($_httpRequest);
+        }
+
+        //and invoke the API call request to fetch the response
+        $response = Request::post($_queryUrl, $_headers, $_bodyJson);
+
+        $_httpResponse = new HttpResponse($response->code, $response->headers, $response->raw_body);
+        $_httpContext = new HttpContext($_httpRequest, $_httpResponse);
+
+        //call on-after Http callback
+        if ($this->getHttpCallBack() != null) {
+            $this->getHttpCallBack()->callOnAfterRequest($_httpContext);
+        }
+
+        //Error handling using HTTP status codes
+        //handle errors defined at the API level
+        $this->validateResponse($_httpResponse, $_httpContext);
+
+        $mapper = $this->getJsonMapper();
+
+        return $mapper->mapClass($response->body, 'RaasLib\\Models\\OrderModel');
+    }
+
+    /**
      * Retrieves a single order
      *
      * @param string $referenceOrderID Reference Order ID
@@ -59,11 +120,8 @@ class OrdersController extends BaseController
         }
 
 
-        //the base uri for api requests
-        $_queryBuilder = Configuration::getBaseUri();
-        
         //prepare query string for API call
-        $_queryBuilder = $_queryBuilder.'/orders/{referenceOrderID}';
+        $_queryBuilder = '/orders/{referenceOrderID}';
 
         //process optional query parameters
         $_queryBuilder = APIHelper::appendUrlWithTemplateParameters($_queryBuilder, array (
@@ -71,11 +129,11 @@ class OrdersController extends BaseController
             ));
 
         //validate and preprocess url
-        $_queryUrl = APIHelper::cleanUrl($_queryBuilder);
+        $_queryUrl = APIHelper::cleanUrl(Configuration::getBaseUri() . $_queryBuilder);
 
         //prepare headers
         $_headers = array (
-            'user-agent'     => 'V2NGSDK',
+            'user-agent'     => BaseController::USER_AGENT,
             'Accept'         => 'application/json'
         );
 
@@ -100,10 +158,6 @@ class OrdersController extends BaseController
         }
 
         //Error handling using HTTP status codes
-        if (($response->code < 200) || ($response->code > 208)) {
-            throw new Exceptions\RaasGenericException('API Error', $_httpContext);
-        }
-
         //handle errors defined at the API level
         $this->validateResponse($_httpResponse, $_httpContext);
 
@@ -115,38 +169,41 @@ class OrdersController extends BaseController
     /**
      * Resends an order
      *
-     * @param string $referenceOrderID The order's reference order id
+     * @param  array  $options    Array with all options for search
+     * @param string                          $options['referenceOrderID']    The order's reference order id
+     * @param Models\OrderResendCriteriaModel $options['orderResendCriteria'] (optional) TODO: type description here
      * @return mixed response from the API call
      * @throws APIException Thrown if API call fails
      */
     public function createResendOrder(
-        $referenceOrderID
+        $options
     ) {
         //check that all required arguments are provided
-        if (!isset($referenceOrderID)) {
+        if (!isset($options['referenceOrderID'])) {
             throw new \InvalidArgumentException("One or more required arguments were NULL.");
         }
 
 
-        //the base uri for api requests
-        $_queryBuilder = Configuration::getBaseUri();
-        
         //prepare query string for API call
-        $_queryBuilder = $_queryBuilder.'/orders/{referenceOrderID}/resends';
+        $_queryBuilder = '/orders/{referenceOrderID}/resends';
 
         //process optional query parameters
         $_queryBuilder = APIHelper::appendUrlWithTemplateParameters($_queryBuilder, array (
-            'referenceOrderID' => $referenceOrderID,
+            'referenceOrderID'    => $this->val($options, 'referenceOrderID'),
             ));
 
         //validate and preprocess url
-        $_queryUrl = APIHelper::cleanUrl($_queryBuilder);
+        $_queryUrl = APIHelper::cleanUrl(Configuration::getBaseUri() . $_queryBuilder);
 
         //prepare headers
         $_headers = array (
-            'user-agent'     => 'V2NGSDK',
-            'Accept'         => 'application/json'
+            'user-agent'        => BaseController::USER_AGENT,
+            'Accept'            => 'application/json',
+            'content-type'      => 'application/json; charset=utf-8'
         );
+
+        //json encode body
+        $_bodyJson = Request\Body::Json($this->val($options, 'orderResendCriteria'));
 
         //set HTTP basic auth parameters
         Request::auth(Configuration::$platformName, Configuration::$platformKey);
@@ -158,7 +215,7 @@ class OrdersController extends BaseController
         }
 
         //and invoke the API call request to fetch the response
-        $response = Request::post($_queryUrl, $_headers);
+        $response = Request::post($_queryUrl, $_headers, $_bodyJson);
 
         $_httpResponse = new HttpResponse($response->code, $response->headers, $response->raw_body);
         $_httpContext = new HttpContext($_httpRequest, $_httpResponse);
@@ -169,10 +226,6 @@ class OrdersController extends BaseController
         }
 
         //Error handling using HTTP status codes
-        if (($response->code < 200) || ($response->code > 208)) {
-            throw new Exceptions\RaasGenericException('API Error', $_httpContext);
-        }
-
         //handle errors defined at the API level
         $this->validateResponse($_httpResponse, $_httpContext);
 
@@ -199,29 +252,26 @@ class OrdersController extends BaseController
         $options
     ) {
 
-        //the base uri for api requests
-        $_queryBuilder = Configuration::getBaseUri();
-        
         //prepare query string for API call
-        $_queryBuilder = $_queryBuilder.'/orders';
+        $_queryBuilder = '/orders';
 
         //process optional query parameters
         APIHelper::appendUrlWithQueryParameters($_queryBuilder, array (
             'accountIdentifier'  => $this->val($options, 'accountIdentifier'),
             'customerIdentifier' => $this->val($options, 'customerIdentifier'),
             'externalRefID'      => $this->val($options, 'externalRefID'),
-            'startDate'          => $this->val($options, 'startDate'),
-            'endDate'            => $this->val($options, 'endDate'),
+            'startDate'          => DateTimeHelper::toRfc3339DateTime($this->val($options, 'startDate')),
+            'endDate'            => DateTimeHelper::toRfc3339DateTime($this->val($options, 'endDate')),
             'elementsPerBlock'   => $this->val($options, 'elementsPerBlock'),
             'page'               => $this->val($options, 'page'),
         ));
 
         //validate and preprocess url
-        $_queryUrl = APIHelper::cleanUrl($_queryBuilder);
+        $_queryUrl = APIHelper::cleanUrl(Configuration::getBaseUri() . $_queryBuilder);
 
         //prepare headers
         $_headers = array (
-            'user-agent'       => 'V2NGSDK',
+            'user-agent'       => BaseController::USER_AGENT,
             'Accept'           => 'application/json'
         );
 
@@ -246,81 +296,12 @@ class OrdersController extends BaseController
         }
 
         //Error handling using HTTP status codes
-        if (($response->code < 200) || ($response->code > 208)) {
-            throw new Exceptions\RaasGenericException('API Error', $_httpContext);
-        }
-
         //handle errors defined at the API level
         $this->validateResponse($_httpResponse, $_httpContext);
 
         $mapper = $this->getJsonMapper();
 
         return $mapper->mapClass($response->body, 'RaasLib\\Models\\GetOrdersResponseModel');
-    }
-
-    /**
-     * Places an order
-     *
-     * @param Models\CreateOrderRequestModel $body A CreateOrderRequest object
-     * @return mixed response from the API call
-     * @throws APIException Thrown if API call fails
-     */
-    public function createOrder(
-        $body
-    ) {
-        //check that all required arguments are provided
-        if (!isset($body)) {
-            throw new \InvalidArgumentException("One or more required arguments were NULL.");
-        }
-
-
-        //the base uri for api requests
-        $_queryBuilder = Configuration::getBaseUri();
-        
-        //prepare query string for API call
-        $_queryBuilder = $_queryBuilder.'/orders';
-
-        //validate and preprocess url
-        $_queryUrl = APIHelper::cleanUrl($_queryBuilder);
-
-        //prepare headers
-        $_headers = array (
-            'user-agent'    => 'V2NGSDK',
-            'Accept'        => 'application/json',
-            'content-type'  => 'application/json; charset=utf-8'
-        );
-
-        //set HTTP basic auth parameters
-        Request::auth(Configuration::$platformName, Configuration::$platformKey);
-
-        //call on-before Http callback
-        $_httpRequest = new HttpRequest(HttpMethod::POST, $_headers, $_queryUrl);
-        if ($this->getHttpCallBack() != null) {
-            $this->getHttpCallBack()->callOnBeforeRequest($_httpRequest);
-        }
-
-        //and invoke the API call request to fetch the response
-        $response = Request::post($_queryUrl, $_headers, Request\Body::Json($body));
-
-        $_httpResponse = new HttpResponse($response->code, $response->headers, $response->raw_body);
-        $_httpContext = new HttpContext($_httpRequest, $_httpResponse);
-
-        //call on-after Http callback
-        if ($this->getHttpCallBack() != null) {
-            $this->getHttpCallBack()->callOnAfterRequest($_httpContext);
-        }
-
-        //Error handling using HTTP status codes
-        if (($response->code < 200) || ($response->code > 208)) {
-            throw new Exceptions\RaasGenericException('API Error', $_httpContext);
-        }
-
-        //handle errors defined at the API level
-        $this->validateResponse($_httpResponse, $_httpContext);
-
-        $mapper = $this->getJsonMapper();
-
-        return $mapper->mapClass($response->body, 'RaasLib\\Models\\OrderModel');
     }
 
 

@@ -41,14 +41,6 @@ class RaasClient
         return Controllers\AccountsController::getInstance();
     }
     /**
-     * Singleton access to Orders controller
-     * @return Controllers\OrdersController The *Singleton* instance
-     */
-    public function getOrders()
-    {
-        return Controllers\OrdersController::getInstance();
-    }
-    /**
      * Singleton access to Fund controller
      * @return Controllers\FundController The *Singleton* instance
      */
@@ -63,6 +55,14 @@ class RaasClient
     public function getExchangeRates()
     {
         return Controllers\ExchangeRatesController::getInstance();
+    }
+    /**
+     * Singleton access to Orders controller
+     * @return Controllers\OrdersController The *Singleton* instance
+     */
+    public function getOrders()
+    {
+        return Controllers\OrdersController::getInstance();
     }
     /**
      * Singleton access to Customers controller

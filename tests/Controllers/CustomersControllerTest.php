@@ -44,7 +44,7 @@ class CustomersControllerTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests retrieving all customers
      */
-    public function testTestGetAllCustomers()
+    public function testGetAllCustomers()
     {
 
         // Set callback and perform API call
@@ -87,7 +87,7 @@ class CustomersControllerTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests retrieving a single customer
      */
-    public function testTestGetCustomer()
+    public function testGetCustomer()
     {
         // Parameters for the API call
         $customerIdentifier = 'sdkautotest1';

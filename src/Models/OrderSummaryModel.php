@@ -93,6 +93,12 @@ class OrderSummaryModel implements JsonSerializable
     public $sendEmail;
 
     /**
+     * The order's email template id
+     * @var string|null $etid public property
+     */
+    public $etid;
+
+    /**
      * The order's status
      * @required
      * @var string $status public property
@@ -108,12 +114,6 @@ class OrderSummaryModel implements JsonSerializable
     public $createdAt;
 
     /**
-     * The order's email template id
-     * @var string|null $etid public property
-     */
-    public $etid;
-
-    /**
      * Constructor to set initial or default values of member properties
      * @param string                  $referenceOrderID   Initialization value for $this->referenceOrderID
      * @param string                  $customerIdentifier Initialization value for $this->customerIdentifier
@@ -123,12 +123,12 @@ class OrderSummaryModel implements JsonSerializable
      * @param CurrencyBreakdownModel  $marginShare        Initialization value for $this->marginShare
      * @param string                  $utid               Initialization value for $this->utid
      * @param string                  $rewardName         Initialization value for $this->rewardName
-     * @param string                  $sender             Initialization value for $this->sender
+     * @param NameEmailModel          $sender             Initialization value for $this->sender
      * @param NameEmailModel          $recipient          Initialization value for $this->recipient
      * @param bool                    $sendEmail          Initialization value for $this->sendEmail
+     * @param string                  $etid               Initialization value for $this->etid
      * @param string                  $status             Initialization value for $this->status
      * @param \DateTime               $createdAt          Initialization value for $this->createdAt
-     * @param string                  $etid               Initialization value for $this->etid
      */
     public function __construct()
     {
@@ -144,9 +144,9 @@ class OrderSummaryModel implements JsonSerializable
             $this->sender             = func_get_arg(8);
             $this->recipient          = func_get_arg(9);
             $this->sendEmail          = func_get_arg(10);
-            $this->status             = func_get_arg(11);
-            $this->createdAt          = func_get_arg(12);
-            $this->etid               = func_get_arg(13);
+            $this->etid               = func_get_arg(11);
+            $this->status             = func_get_arg(12);
+            $this->createdAt          = func_get_arg(13);
         }
     }
 
@@ -168,9 +168,9 @@ class OrderSummaryModel implements JsonSerializable
         $json['sender']             = $this->sender;
         $json['recipient']          = $this->recipient;
         $json['sendEmail']          = $this->sendEmail;
+        $json['etid']               = $this->etid;
         $json['status']             = $this->status;
         $json['createdAt']          = DateTimeHelper::toRfc3339DateTime($this->createdAt);
-        $json['etid']               = $this->etid;
 
         return $json;
     }

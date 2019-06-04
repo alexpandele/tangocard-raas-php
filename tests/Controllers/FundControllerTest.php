@@ -44,7 +44,7 @@ class FundControllerTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests retrieving deposit information
      */
-    public function testTestGetDeposit()
+    public function testGetDeposit()
     {
         // Parameters for the API call
         $depositId = 'RAD-180426-5407';
@@ -84,7 +84,7 @@ class FundControllerTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests adding funds to an account
      */
-    public function testTestAddFunds()
+    public function testAddFunds()
     {
         // Parameters for the API call
         $body = TestHelper::getJsonMapper()->mapClass(json_decode(
@@ -128,7 +128,7 @@ class FundControllerTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests retrieving all credit cards for a platform
      */
-    public function testTestGetCreditCards()
+    public function testGetCreditCards()
     {
 
         // Set callback and perform API call
@@ -171,7 +171,7 @@ class FundControllerTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests retrieving a single credit card
      */
-    public function testTestGetCreditCard()
+    public function testGetCreditCard()
     {
         // Parameters for the API call
         $token = '56ac1a30-6ba2-4047-9b8c-70f97a5502c5';

@@ -44,7 +44,7 @@ class CatalogControllerTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests if we can successfully retrieve a platform's catalog
      */
-    public function testTestRetrieveCatalog()
+    public function testRetrieveCatalog()
     {
 
         // Set callback and perform API call

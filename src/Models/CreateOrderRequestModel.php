@@ -29,31 +29,17 @@ class CreateOrderRequestModel implements JsonSerializable
     public $amount;
 
     /**
+     * An optional campaign identifier
+     * @var string|null $campaign public property
+     */
+    public $campaign;
+
+    /**
      * The customer identifier
      * @required
      * @var string $customerIdentifier public property
      */
     public $customerIdentifier;
-
-    /**
-     * Indicates whether we should deliver this reward via email
-     * @required
-     * @var bool $sendEmail public property
-     */
-    public $sendEmail;
-
-    /**
-     * The UTID
-     * @required
-     * @var string $utid public property
-     */
-    public $utid;
-
-    /**
-     * An optional campaign identifier
-     * @var string|null $campaign public property
-     */
-    public $campaign;
 
     /**
      * The subject of the gift email
@@ -80,10 +66,24 @@ class CreateOrderRequestModel implements JsonSerializable
     public $recipient;
 
     /**
+     * Indicates whether we should deliver this reward via email
+     * @required
+     * @var bool $sendEmail public property
+     */
+    public $sendEmail;
+
+    /**
      * Optional sender information
      * @var \RaasLib\Models\NameEmailModel|null $sender public property
      */
     public $sender;
+
+    /**
+     * The UTID
+     * @required
+     * @var string $utid public property
+     */
+    public $utid;
 
     /**
      * Optional notes (not displayed to customer)
@@ -101,15 +101,15 @@ class CreateOrderRequestModel implements JsonSerializable
      * Constructor to set initial or default values of member properties
      * @param string         $accountIdentifier  Initialization value for $this->accountIdentifier
      * @param double         $amount             Initialization value for $this->amount
-     * @param string         $customerIdentifier Initialization value for $this->customerIdentifier
-     * @param bool           $sendEmail          Initialization value for $this->sendEmail
-     * @param string         $utid               Initialization value for $this->utid
      * @param string         $campaign           Initialization value for $this->campaign
+     * @param string         $customerIdentifier Initialization value for $this->customerIdentifier
      * @param string         $emailSubject       Initialization value for $this->emailSubject
      * @param string         $externalRefID      Initialization value for $this->externalRefID
      * @param string         $message            Initialization value for $this->message
      * @param NameEmailModel $recipient          Initialization value for $this->recipient
+     * @param bool           $sendEmail          Initialization value for $this->sendEmail
      * @param NameEmailModel $sender             Initialization value for $this->sender
+     * @param string         $utid               Initialization value for $this->utid
      * @param string         $notes              Initialization value for $this->notes
      * @param string         $etid               Initialization value for $this->etid
      */
@@ -118,15 +118,15 @@ class CreateOrderRequestModel implements JsonSerializable
         if (13 == func_num_args()) {
             $this->accountIdentifier  = func_get_arg(0);
             $this->amount             = func_get_arg(1);
-            $this->customerIdentifier = func_get_arg(2);
-            $this->sendEmail          = func_get_arg(3);
-            $this->utid               = func_get_arg(4);
-            $this->campaign           = func_get_arg(5);
-            $this->emailSubject       = func_get_arg(6);
-            $this->externalRefID      = func_get_arg(7);
-            $this->message            = func_get_arg(8);
-            $this->recipient          = func_get_arg(9);
-            $this->sender             = func_get_arg(10);
+            $this->campaign           = func_get_arg(2);
+            $this->customerIdentifier = func_get_arg(3);
+            $this->emailSubject       = func_get_arg(4);
+            $this->externalRefID      = func_get_arg(5);
+            $this->message            = func_get_arg(6);
+            $this->recipient          = func_get_arg(7);
+            $this->sendEmail          = func_get_arg(8);
+            $this->sender             = func_get_arg(9);
+            $this->utid               = func_get_arg(10);
             $this->notes              = func_get_arg(11);
             $this->etid               = func_get_arg(12);
         }
@@ -141,15 +141,15 @@ class CreateOrderRequestModel implements JsonSerializable
         $json = array();
         $json['accountIdentifier']  = $this->accountIdentifier;
         $json['amount']             = $this->amount;
-        $json['customerIdentifier'] = $this->customerIdentifier;
-        $json['sendEmail']          = $this->sendEmail;
-        $json['utid']               = $this->utid;
         $json['campaign']           = $this->campaign;
+        $json['customerIdentifier'] = $this->customerIdentifier;
         $json['emailSubject']       = $this->emailSubject;
         $json['externalRefID']      = $this->externalRefID;
         $json['message']            = $this->message;
         $json['recipient']          = $this->recipient;
+        $json['sendEmail']          = $this->sendEmail;
         $json['sender']             = $this->sender;
+        $json['utid']               = $this->utid;
         $json['notes']              = $this->notes;
         $json['etid']               = $this->etid;
 

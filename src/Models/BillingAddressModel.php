@@ -36,6 +36,12 @@ class BillingAddressModel implements JsonSerializable
     public $addressLine1;
 
     /**
+     * An optional second address line
+     * @var string|null $addressLine2 public property
+     */
+    public $addressLine2;
+
+    /**
      * The city
      * @required
      * @var string $city public property
@@ -71,22 +77,16 @@ class BillingAddressModel implements JsonSerializable
     public $emailAddress;
 
     /**
-     * An optional second address line
-     * @var string|null $addressLine2 public property
-     */
-    public $addressLine2;
-
-    /**
      * Constructor to set initial or default values of member properties
      * @param string $firstName    Initialization value for $this->firstName
      * @param string $lastName     Initialization value for $this->lastName
      * @param string $addressLine1 Initialization value for $this->addressLine1
+     * @param string $addressLine2 Initialization value for $this->addressLine2
      * @param string $city         Initialization value for $this->city
      * @param string $state        Initialization value for $this->state
      * @param string $postalCode   Initialization value for $this->postalCode
      * @param string $country      Initialization value for $this->country
      * @param string $emailAddress Initialization value for $this->emailAddress
-     * @param string $addressLine2 Initialization value for $this->addressLine2
      */
     public function __construct()
     {
@@ -94,12 +94,12 @@ class BillingAddressModel implements JsonSerializable
             $this->firstName    = func_get_arg(0);
             $this->lastName     = func_get_arg(1);
             $this->addressLine1 = func_get_arg(2);
-            $this->city         = func_get_arg(3);
-            $this->state        = func_get_arg(4);
-            $this->postalCode   = func_get_arg(5);
-            $this->country      = func_get_arg(6);
-            $this->emailAddress = func_get_arg(7);
-            $this->addressLine2 = func_get_arg(8);
+            $this->addressLine2 = func_get_arg(3);
+            $this->city         = func_get_arg(4);
+            $this->state        = func_get_arg(5);
+            $this->postalCode   = func_get_arg(6);
+            $this->country      = func_get_arg(7);
+            $this->emailAddress = func_get_arg(8);
         }
     }
 
@@ -113,12 +113,12 @@ class BillingAddressModel implements JsonSerializable
         $json['firstName']    = $this->firstName;
         $json['lastName']     = $this->lastName;
         $json['addressLine1'] = $this->addressLine1;
+        $json['addressLine2'] = $this->addressLine2;
         $json['city']         = $this->city;
         $json['state']        = $this->state;
         $json['postalCode']   = $this->postalCode;
         $json['country']      = $this->country;
         $json['emailAddress'] = $this->emailAddress;
-        $json['addressLine2'] = $this->addressLine2;
 
         return $json;
     }

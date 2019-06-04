@@ -10,25 +10,25 @@ namespace RaasLib\Models;
 use JsonSerializable;
 
 /**
- *Represents the response returned from the status endpoint
+ * @todo Write general description for this model
  */
-class SystemStatusResponseModel implements JsonSerializable
+class OrderResendCriteriaModel implements JsonSerializable
 {
     /**
-     * The status of the system
+     * @todo Write general description for this property
      * @required
-     * @var string $status public property
+     * @var string $newEmail public property
      */
-    public $status;
+    public $newEmail;
 
     /**
      * Constructor to set initial or default values of member properties
-     * @param string $status Initialization value for $this->status
+     * @param string $newEmail Initialization value for $this->newEmail
      */
     public function __construct()
     {
         if (1 == func_num_args()) {
-            $this->status = func_get_arg(0);
+            $this->newEmail = func_get_arg(0);
         }
     }
 
@@ -39,7 +39,7 @@ class SystemStatusResponseModel implements JsonSerializable
     public function jsonSerialize()
     {
         $json = array();
-        $json['status'] = $this->status;
+        $json['newEmail'] = $this->newEmail;
 
         return $json;
     }

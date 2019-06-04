@@ -44,7 +44,7 @@ class AccountsControllerTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests retrieving all accounts under a specific customer
      */
-    public function testTestGetAllCustomerAccounts()
+    public function testGetAllCustomerAccounts()
     {
         // Parameters for the API call
         $customerIdentifier = 'sdkautotest1';
@@ -86,7 +86,7 @@ class AccountsControllerTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests retrieving all accounts
      */
-    public function testTestGetAllAccounts()
+    public function testGetAllAccounts()
     {
 
         // Set callback and perform API call
@@ -125,7 +125,7 @@ class AccountsControllerTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests retrieving a single account
      */
-    public function testTestGetSingleAccount()
+    public function testGetSingleAccount()
     {
         // Parameters for the API call
         $accountIdentifier = 'sdkautotest2';

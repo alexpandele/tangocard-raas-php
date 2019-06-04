@@ -29,6 +29,12 @@ class RaasClientErrorModel implements JsonSerializable
     public $message;
 
     /**
+     * The value that was invalid
+     * @var string|null $invalidValue public property
+     */
+    public $invalidValue;
+
+    /**
      * The constraint validated
      * @required
      * @var string $constraint public property
@@ -36,25 +42,19 @@ class RaasClientErrorModel implements JsonSerializable
     public $constraint;
 
     /**
-     * The value that was invalid
-     * @var string|null $invalidValue public property
-     */
-    public $invalidValue;
-
-    /**
      * Constructor to set initial or default values of member properties
      * @param string $path         Initialization value for $this->path
      * @param string $message      Initialization value for $this->message
-     * @param string $constraint   Initialization value for $this->constraint
      * @param string $invalidValue Initialization value for $this->invalidValue
+     * @param string $constraint   Initialization value for $this->constraint
      */
     public function __construct()
     {
         if (4 == func_num_args()) {
             $this->path         = func_get_arg(0);
             $this->message      = func_get_arg(1);
-            $this->constraint   = func_get_arg(2);
-            $this->invalidValue = func_get_arg(3);
+            $this->invalidValue = func_get_arg(2);
+            $this->constraint   = func_get_arg(3);
         }
     }
 
@@ -67,8 +67,8 @@ class RaasClientErrorModel implements JsonSerializable
         $json = array();
         $json['path']         = $this->path;
         $json['message']      = $this->message;
-        $json['constraint']   = $this->constraint;
         $json['invalidValue'] = $this->invalidValue;
+        $json['constraint']   = $this->constraint;
 
         return $json;
     }

@@ -37,7 +37,7 @@ class TestHelper
                     $found = true;
             }
             if ($found == false) {
-                $this->fail("Response array is missing values");
+                throw new \Exception("Response array is missing values");
             }
         }
     }

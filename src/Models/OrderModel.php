@@ -72,11 +72,29 @@ class OrderModel implements JsonSerializable
     public $rewardName;
 
     /**
+     * The sender data
+     * @var \RaasLib\Models\NameEmailModel|null $sender public property
+     */
+    public $sender;
+
+    /**
+     * The recipient data
+     * @var \RaasLib\Models\NameEmailModel|null $recipient public property
+     */
+    public $recipient;
+
+    /**
      * Indicates if an email was sent to the recipient
      * @required
      * @var bool $sendEmail public property
      */
     public $sendEmail;
+
+    /**
+     * The email template id
+     * @var string|null $etid public property
+     */
+    public $etid;
 
     /**
      * The order's status
@@ -99,24 +117,6 @@ class OrderModel implements JsonSerializable
      * @var \RaasLib\Models\RewardModel $reward public property
      */
     public $reward;
-
-    /**
-     * The sender data
-     * @var \RaasLib\Models\NameEmailModel|null $sender public property
-     */
-    public $sender;
-
-    /**
-     * The recipient data
-     * @var \RaasLib\Models\NameEmailModel|null $recipient public property
-     */
-    public $recipient;
-
-    /**
-     * The email template id
-     * @var string|null $etid public property
-     */
-    public $etid;
 
     /**
      * An optional campaign identifier
@@ -164,13 +164,13 @@ class OrderModel implements JsonSerializable
      * @param CurrencyBreakdownModel  $denomination       Initialization value for $this->denomination
      * @param string                  $utid               Initialization value for $this->utid
      * @param string                  $rewardName         Initialization value for $this->rewardName
+     * @param NameEmailModel          $sender             Initialization value for $this->sender
+     * @param NameEmailModel          $recipient          Initialization value for $this->recipient
      * @param bool                    $sendEmail          Initialization value for $this->sendEmail
+     * @param string                  $etid               Initialization value for $this->etid
      * @param string                  $status             Initialization value for $this->status
      * @param \DateTime               $createdAt          Initialization value for $this->createdAt
      * @param RewardModel             $reward             Initialization value for $this->reward
-     * @param NameEmailModel          $sender             Initialization value for $this->sender
-     * @param NameEmailModel          $recipient          Initialization value for $this->recipient
-     * @param string                  $etid               Initialization value for $this->etid
      * @param string                  $campaign           Initialization value for $this->campaign
      * @param string                  $emailSubject       Initialization value for $this->emailSubject
      * @param string                  $externalRefID      Initialization value for $this->externalRefID
@@ -189,13 +189,13 @@ class OrderModel implements JsonSerializable
             $this->denomination       = func_get_arg(5);
             $this->utid               = func_get_arg(6);
             $this->rewardName         = func_get_arg(7);
-            $this->sendEmail          = func_get_arg(8);
-            $this->status             = func_get_arg(9);
-            $this->createdAt          = func_get_arg(10);
-            $this->reward             = func_get_arg(11);
-            $this->sender             = func_get_arg(12);
-            $this->recipient          = func_get_arg(13);
-            $this->etid               = func_get_arg(14);
+            $this->sender             = func_get_arg(8);
+            $this->recipient          = func_get_arg(9);
+            $this->sendEmail          = func_get_arg(10);
+            $this->etid               = func_get_arg(11);
+            $this->status             = func_get_arg(12);
+            $this->createdAt          = func_get_arg(13);
+            $this->reward             = func_get_arg(14);
             $this->campaign           = func_get_arg(15);
             $this->emailSubject       = func_get_arg(16);
             $this->externalRefID      = func_get_arg(17);
@@ -220,13 +220,13 @@ class OrderModel implements JsonSerializable
         $json['denomination']       = $this->denomination;
         $json['utid']               = $this->utid;
         $json['rewardName']         = $this->rewardName;
+        $json['sender']             = $this->sender;
+        $json['recipient']          = $this->recipient;
         $json['sendEmail']          = $this->sendEmail;
+        $json['etid']               = $this->etid;
         $json['status']             = $this->status;
         $json['createdAt']          = DateTimeHelper::toRfc3339DateTime($this->createdAt);
         $json['reward']             = $this->reward;
-        $json['sender']             = $this->sender;
-        $json['recipient']          = $this->recipient;
-        $json['etid']               = $this->etid;
         $json['campaign']           = $this->campaign;
         $json['emailSubject']       = $this->emailSubject;
         $json['externalRefID']      = $this->externalRefID;

@@ -43,71 +43,6 @@ class CustomersController extends BaseController
     }
 
     /**
-     * Creates a new customer
-     *
-     * @param Models\CreateCustomerRequestModel $body Request Body
-     * @return mixed response from the API call
-     * @throws APIException Thrown if API call fails
-     */
-    public function createCustomer(
-        $body
-    ) {
-        //check that all required arguments are provided
-        if (!isset($body)) {
-            throw new \InvalidArgumentException("One or more required arguments were NULL.");
-        }
-
-
-        //the base uri for api requests
-        $_queryBuilder = Configuration::getBaseUri();
-        
-        //prepare query string for API call
-        $_queryBuilder = $_queryBuilder.'/customers';
-
-        //validate and preprocess url
-        $_queryUrl = APIHelper::cleanUrl($_queryBuilder);
-
-        //prepare headers
-        $_headers = array (
-            'user-agent'    => 'V2NGSDK',
-            'Accept'        => 'application/json',
-            'content-type'  => 'application/json; charset=utf-8'
-        );
-
-        //set HTTP basic auth parameters
-        Request::auth(Configuration::$platformName, Configuration::$platformKey);
-
-        //call on-before Http callback
-        $_httpRequest = new HttpRequest(HttpMethod::POST, $_headers, $_queryUrl);
-        if ($this->getHttpCallBack() != null) {
-            $this->getHttpCallBack()->callOnBeforeRequest($_httpRequest);
-        }
-
-        //and invoke the API call request to fetch the response
-        $response = Request::post($_queryUrl, $_headers, Request\Body::Json($body));
-
-        $_httpResponse = new HttpResponse($response->code, $response->headers, $response->raw_body);
-        $_httpContext = new HttpContext($_httpRequest, $_httpResponse);
-
-        //call on-after Http callback
-        if ($this->getHttpCallBack() != null) {
-            $this->getHttpCallBack()->callOnAfterRequest($_httpContext);
-        }
-
-        //Error handling using HTTP status codes
-        if (($response->code < 200) || ($response->code > 208)) {
-            throw new Exceptions\RaasGenericException('API Error', $_httpContext);
-        }
-
-        //handle errors defined at the API level
-        $this->validateResponse($_httpResponse, $_httpContext);
-
-        $mapper = $this->getJsonMapper();
-
-        return $mapper->mapClass($response->body, 'RaasLib\\Models\\CustomerModel');
-    }
-
-    /**
      * Retrieves all customers under the platform
      *
      * @return mixed response from the API call
@@ -116,18 +51,15 @@ class CustomersController extends BaseController
     public function getAllCustomers()
     {
 
-        //the base uri for api requests
-        $_queryBuilder = Configuration::getBaseUri();
-        
         //prepare query string for API call
-        $_queryBuilder = $_queryBuilder.'/customers';
+        $_queryBuilder = '/customers';
 
         //validate and preprocess url
-        $_queryUrl = APIHelper::cleanUrl($_queryBuilder);
+        $_queryUrl = APIHelper::cleanUrl(Configuration::getBaseUri() . $_queryBuilder);
 
         //prepare headers
         $_headers = array (
-            'user-agent'    => 'V2NGSDK',
+            'user-agent'    => BaseController::USER_AGENT,
             'Accept'        => 'application/json'
         );
 
@@ -152,16 +84,73 @@ class CustomersController extends BaseController
         }
 
         //Error handling using HTTP status codes
-        if (($response->code < 200) || ($response->code > 208)) {
-            throw new Exceptions\RaasGenericException('API Error', $_httpContext);
-        }
-
         //handle errors defined at the API level
         $this->validateResponse($_httpResponse, $_httpContext);
 
         $mapper = $this->getJsonMapper();
 
         return $mapper->mapClassArray($response->body, 'RaasLib\\Models\\CustomerModel');
+    }
+
+    /**
+     * Creates a new customer
+     *
+     * @param Models\CreateCustomerRequestModel $body Request Body
+     * @return mixed response from the API call
+     * @throws APIException Thrown if API call fails
+     */
+    public function createCustomer(
+        $body
+    ) {
+        //check that all required arguments are provided
+        if (!isset($body)) {
+            throw new \InvalidArgumentException("One or more required arguments were NULL.");
+        }
+
+
+        //prepare query string for API call
+        $_queryBuilder = '/customers';
+
+        //validate and preprocess url
+        $_queryUrl = APIHelper::cleanUrl(Configuration::getBaseUri() . $_queryBuilder);
+
+        //prepare headers
+        $_headers = array (
+            'user-agent'    => BaseController::USER_AGENT,
+            'Accept'        => 'application/json',
+            'content-type'  => 'application/json; charset=utf-8'
+        );
+
+        //json encode body
+        $_bodyJson = Request\Body::Json($body);
+
+        //set HTTP basic auth parameters
+        Request::auth(Configuration::$platformName, Configuration::$platformKey);
+
+        //call on-before Http callback
+        $_httpRequest = new HttpRequest(HttpMethod::POST, $_headers, $_queryUrl);
+        if ($this->getHttpCallBack() != null) {
+            $this->getHttpCallBack()->callOnBeforeRequest($_httpRequest);
+        }
+
+        //and invoke the API call request to fetch the response
+        $response = Request::post($_queryUrl, $_headers, $_bodyJson);
+
+        $_httpResponse = new HttpResponse($response->code, $response->headers, $response->raw_body);
+        $_httpContext = new HttpContext($_httpRequest, $_httpResponse);
+
+        //call on-after Http callback
+        if ($this->getHttpCallBack() != null) {
+            $this->getHttpCallBack()->callOnAfterRequest($_httpContext);
+        }
+
+        //Error handling using HTTP status codes
+        //handle errors defined at the API level
+        $this->validateResponse($_httpResponse, $_httpContext);
+
+        $mapper = $this->getJsonMapper();
+
+        return $mapper->mapClass($response->body, 'RaasLib\\Models\\CustomerModel');
     }
 
     /**
@@ -180,11 +169,8 @@ class CustomersController extends BaseController
         }
 
 
-        //the base uri for api requests
-        $_queryBuilder = Configuration::getBaseUri();
-        
         //prepare query string for API call
-        $_queryBuilder = $_queryBuilder.'/customers/{customerIdentifier}';
+        $_queryBuilder = '/customers/{customerIdentifier}';
 
         //process optional query parameters
         $_queryBuilder = APIHelper::appendUrlWithTemplateParameters($_queryBuilder, array (
@@ -192,11 +178,11 @@ class CustomersController extends BaseController
             ));
 
         //validate and preprocess url
-        $_queryUrl = APIHelper::cleanUrl($_queryBuilder);
+        $_queryUrl = APIHelper::cleanUrl(Configuration::getBaseUri() . $_queryBuilder);
 
         //prepare headers
         $_headers = array (
-            'user-agent'       => 'V2NGSDK',
+            'user-agent'       => BaseController::USER_AGENT,
             'Accept'           => 'application/json'
         );
 
@@ -221,10 +207,6 @@ class CustomersController extends BaseController
         }
 
         //Error handling using HTTP status codes
-        if (($response->code < 200) || ($response->code > 208)) {
-            throw new Exceptions\RaasGenericException('API Error', $_httpContext);
-        }
-
         //handle errors defined at the API level
         $this->validateResponse($_httpResponse, $_httpContext);
 

@@ -44,7 +44,7 @@ class StatusControllerTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests if we can retrieve the system status
      */
-    public function testTestStatusIsOK()
+    public function testStatusIsOK()
     {
 
         // Set callback and perform API call

@@ -58,6 +58,24 @@ class ItemModel implements JsonSerializable
     public $rewardType;
 
     /**
+     * The minimum orderable value (for variable value items)
+     * @var double|null $minValue public property
+     */
+    public $minValue;
+
+    /**
+     * The maximum orderable value (for variable value items)
+     * @var double|null $maxValue public property
+     */
+    public $maxValue;
+
+    /**
+     * The face value of the gift card
+     * @var double|null $faceValue public property
+     */
+    public $faceValue;
+
+    /**
      * The date the item was created
      * @required
      * @factory \RaasLib\Utils\DateTimeHelper::fromRfc3339DateTime
@@ -81,24 +99,6 @@ class ItemModel implements JsonSerializable
     public $countries;
 
     /**
-     * The minimum orderable value (for variable value items)
-     * @var double|null $minValue public property
-     */
-    public $minValue;
-
-    /**
-     * The maximum orderable value (for variable value items)
-     * @var double|null $maxValue public property
-     */
-    public $maxValue;
-
-    /**
-     * The face value of the gift card
-     * @var double|null $faceValue public property
-     */
-    public $faceValue;
-
-    /**
      * Constructor to set initial or default values of member properties
      * @param string    $utid           Initialization value for $this->utid
      * @param string    $rewardName     Initialization value for $this->rewardName
@@ -106,12 +106,12 @@ class ItemModel implements JsonSerializable
      * @param string    $status         Initialization value for $this->status
      * @param string    $valueType      Initialization value for $this->valueType
      * @param string    $rewardType     Initialization value for $this->rewardType
-     * @param \DateTime $createdDate    Initialization value for $this->createdDate
-     * @param \DateTime $lastUpdateDate Initialization value for $this->lastUpdateDate
-     * @param array     $countries      Initialization value for $this->countries
      * @param double    $minValue       Initialization value for $this->minValue
      * @param double    $maxValue       Initialization value for $this->maxValue
      * @param double    $faceValue      Initialization value for $this->faceValue
+     * @param \DateTime $createdDate    Initialization value for $this->createdDate
+     * @param \DateTime $lastUpdateDate Initialization value for $this->lastUpdateDate
+     * @param array     $countries      Initialization value for $this->countries
      */
     public function __construct()
     {
@@ -122,12 +122,12 @@ class ItemModel implements JsonSerializable
             $this->status         = func_get_arg(3);
             $this->valueType      = func_get_arg(4);
             $this->rewardType     = func_get_arg(5);
-            $this->createdDate    = func_get_arg(6);
-            $this->lastUpdateDate = func_get_arg(7);
-            $this->countries      = func_get_arg(8);
-            $this->minValue       = func_get_arg(9);
-            $this->maxValue       = func_get_arg(10);
-            $this->faceValue      = func_get_arg(11);
+            $this->minValue       = func_get_arg(6);
+            $this->maxValue       = func_get_arg(7);
+            $this->faceValue      = func_get_arg(8);
+            $this->createdDate    = func_get_arg(9);
+            $this->lastUpdateDate = func_get_arg(10);
+            $this->countries      = func_get_arg(11);
         }
     }
 
@@ -144,12 +144,12 @@ class ItemModel implements JsonSerializable
         $json['status']         = $this->status;
         $json['valueType']      = $this->valueType;
         $json['rewardType']     = $this->rewardType;
-        $json['createdDate']    = DateTimeHelper::toRfc3339DateTime($this->createdDate);
-        $json['lastUpdateDate'] = DateTimeHelper::toRfc3339DateTime($this->lastUpdateDate);
-        $json['countries']      = $this->countries;
         $json['minValue']       = $this->minValue;
         $json['maxValue']       = $this->maxValue;
         $json['faceValue']      = $this->faceValue;
+        $json['createdDate']    = DateTimeHelper::toRfc3339DateTime($this->createdDate);
+        $json['lastUpdateDate'] = DateTimeHelper::toRfc3339DateTime($this->lastUpdateDate);
+        $json['countries']      = $this->countries;
 
         return $json;
     }
