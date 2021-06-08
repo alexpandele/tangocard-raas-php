@@ -23,6 +23,13 @@ class OrderSummaryModel implements JsonSerializable
     public $referenceOrderID;
 
     /**
+     * The external reference order id
+     * @required
+     * @var string $externalRefID public property
+     */
+    public $externalRefID;
+
+    /**
      * The customer identifier
      * @required
      * @var string $customerIdentifier public property
@@ -116,6 +123,7 @@ class OrderSummaryModel implements JsonSerializable
     /**
      * Constructor to set initial or default values of member properties
      * @param string                  $referenceOrderID   Initialization value for $this->referenceOrderID
+     * @param string                  $externalRefID      Initialization value for $this->externalRefID
      * @param string                  $customerIdentifier Initialization value for $this->customerIdentifier
      * @param string                  $accountIdentifier  Initialization value for $this->accountIdentifier
      * @param string                  $accountNumber      Initialization value for $this->accountNumber
@@ -134,19 +142,20 @@ class OrderSummaryModel implements JsonSerializable
     {
         if (14 == func_num_args()) {
             $this->referenceOrderID   = func_get_arg(0);
-            $this->customerIdentifier = func_get_arg(1);
-            $this->accountIdentifier  = func_get_arg(2);
-            $this->accountNumber      = func_get_arg(3);
-            $this->amountCharged      = func_get_arg(4);
-            $this->marginShare        = func_get_arg(5);
-            $this->utid               = func_get_arg(6);
-            $this->rewardName         = func_get_arg(7);
-            $this->sender             = func_get_arg(8);
-            $this->recipient          = func_get_arg(9);
-            $this->sendEmail          = func_get_arg(10);
-            $this->etid               = func_get_arg(11);
-            $this->status             = func_get_arg(12);
-            $this->createdAt          = func_get_arg(13);
+            $this->externalRefID      = func_get_arg(1);
+            $this->customerIdentifier = func_get_arg(2);
+            $this->accountIdentifier  = func_get_arg(3);
+            $this->accountNumber      = func_get_arg(4);
+            $this->amountCharged      = func_get_arg(5);
+            $this->marginShare        = func_get_arg(6);
+            $this->utid               = func_get_arg(7);
+            $this->rewardName         = func_get_arg(8);
+            $this->sender             = func_get_arg(9);
+            $this->recipient          = func_get_arg(10);
+            $this->sendEmail          = func_get_arg(11);
+            $this->etid               = func_get_arg(12);
+            $this->status             = func_get_arg(13);
+            $this->createdAt          = func_get_arg(14);
         }
     }
 
@@ -158,6 +167,7 @@ class OrderSummaryModel implements JsonSerializable
     {
         $json = array();
         $json['referenceOrderID']   = $this->referenceOrderID;
+        $json['externalRefID']      = $this->externalRefID;
         $json['customerIdentifier'] = $this->customerIdentifier;
         $json['accountIdentifier']  = $this->accountIdentifier;
         $json['accountNumber']      = $this->accountNumber;
