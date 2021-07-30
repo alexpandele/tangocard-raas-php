@@ -104,6 +104,8 @@ class ItemModel implements JsonSerializable
      */
     public $countries;
 
+    public $credentialTypes;
+
     /**
      * Constructor to set initial or default values of member properties
      * @param string    $utid           Initialization value for $this->utid
@@ -134,6 +136,7 @@ class ItemModel implements JsonSerializable
             $this->createdDate    = func_get_arg(9);
             $this->lastUpdateDate = func_get_arg(10);
             $this->countries      = func_get_arg(11);
+            $this->credentialTypes      = func_get_arg(12);
         }
     }
 
@@ -157,6 +160,7 @@ class ItemModel implements JsonSerializable
         $json['lastUpdateDate'] = DateTimeHelper::toRfc3339DateTime($this->lastUpdateDate);
         $json['countries']      = $this->countries;
         $json['redemptionInstructions']     = $this->redemptionInstructions;
+        $json['credentialTypes']     = $this->credentialTypes;
 
         return $json;
     }
