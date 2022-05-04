@@ -67,7 +67,7 @@ class CurrencyBreakdownModel implements JsonSerializable
     /**
      * Encode this object to JSON
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         $json = array();
         $json['currencyCode'] = $this->currencyCode;

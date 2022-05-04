@@ -56,7 +56,7 @@ class UnregisterCreditCardResponseModel implements JsonSerializable
     /**
      * Encode this object to JSON
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         $json = array();
         $json['createdDate'] = DateTimeHelper::toRfc3339DateTime($this->createdDate);
