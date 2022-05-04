@@ -1,7 +1,8 @@
-TangoCard RAAS for PHP
+Tango Card RaaS for PHP
 ======================
 
-This repository is maintained version of `raas-v2-sdk-php` for TangoCard RAAS.
+This repository is maintained version of `raas-v2-sdk-php` for Tango Card RaaS which was deprecated and removed by them,
+but still maybe usefull for some projects.
 
 
 Installation
